@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace HalkBank.UnitTests.ConsoleApp.Accounting
 {
   // Domain Centric (Associations,Property,Event,Method,Field) Object yapıları burdaki tanımlanan classlara örnek verilebilir. veya Data Centric (Data Structure), Class içerisinde sadece property barındırır.
-  public class Customer
+  public class Customer // Customer class Account için Information Expert sorumluluğunda hesap açılış kapanış durumlarını yönetiyor.
   {
     public string FirstName { get; init; } // setter sadece constructor setter
     public string LastName { get; init; }

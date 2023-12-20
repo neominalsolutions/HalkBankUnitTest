@@ -55,6 +55,7 @@ namespace HalkBank.UnitTests.ConsoleApp.Accounting
     /// </summary>
     /// <param name="amount"></param>
     [CustomException]
+    // Creator özelliğini kullanarak Account sınıfı üzerinden account transaction isntance kontrolü bir şekilde aldık.GRASP Creator (Creational Patterns aynı zamanda GRASP Creator kullanıma bir örnek teşkil eder.)
     public void WithDraw(decimal amount)
     {
 
