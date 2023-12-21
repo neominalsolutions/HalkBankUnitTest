@@ -14,7 +14,7 @@ using System.Security.Authentication.ExtendedProtection;
 var builder = new ContainerBuilder();
 builder.RegisterModule(new ServiceRegistrationModule());
 
-var container = builder.Build();
+var container = builder.Build(); // uygulamanın servicelerini çözümlemek için hazırladık
 
 
 
