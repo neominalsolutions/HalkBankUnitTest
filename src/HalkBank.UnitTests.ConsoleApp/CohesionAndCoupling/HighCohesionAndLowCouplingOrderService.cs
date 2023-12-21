@@ -71,6 +71,7 @@ namespace HalkBank.UnitTests.ConsoleApp.CohesionAndCoupling
     private readonly IEmailService emailService;
     private readonly IRepository<Order> repository;
     private readonly IDiscount discount;
+    // FACADE DESING PATTERN
 
     // SOLID:DIP prensibinin örnek kullanımı
 
@@ -86,7 +87,7 @@ namespace HalkBank.UnitTests.ConsoleApp.CohesionAndCoupling
 
     public void SubmitOrder(Order order, string code)
     {
-      discount.ApplyPromationCode(code);
+      this.discount.ApplyPromationCode(code);
       this.repository.Save(order);
       this.emailService.SendEmail(order.CustomerId, "Sipariş alındı");
     }

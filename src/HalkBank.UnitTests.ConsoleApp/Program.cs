@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Autofac;
 using Autofac.Extras.DynamicProxy;
+using HalkBank.UnitTests.ConsoleApp;
 using HalkBank.UnitTests.ConsoleApp.Accounting;
 using HalkBank.UnitTests.ConsoleApp.Attributes;
 using HalkBank.UnitTests.ConsoleApp.CohesionAndCoupling;
@@ -9,15 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Security.Authentication.ExtendedProtection;
 
 
+// Instance alma işlemini AutoFac üzerine bıraktık. IoC yapısı kullandık.
+var builder = new ContainerBuilder();
+builder.RegisterModule(new ServiceRegistrationModule());
 
-var container = new ContainerBuilder();
-
-var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-// current assembly
-// IInterceptor sahip sınıfların yüklenmesini uygulama tanıtılmasını sağlayan bir reflection kodu.
-container.RegisterAssemblyTypes(assembly).AsImplementedInterfaces()
-    .EnableInterfaceInterceptors().SingleInstance();
-
+var container = builder.Build();
 
 
 
@@ -32,7 +29,7 @@ var customerAccount = customer.Accounts.FirstOrDefault(x => x.AccountNumber == "
 
 if(customerAccount is not null)
 {
-  customerAccount.WithDraw(5000); // 5000 TL para çek.,
+  //customerAccount.WithDraw(5000); // 5000 TL para çek.,
 }
 
 
@@ -70,6 +67,25 @@ service2.SubmitOrder(order: new Order("ALI"), code: "234324");
 #endregion
 
 
+
+#region IoC
+
+// Register edilen serviceleri ise burada çağırdık.
+// Değeri Key üzerinden çöz.
+// Bir interface birden fazla sınıftan implemente olduğu durumlarda key üzerinden service çözümleme yapılabilir.
+
+Console.WriteLine("Hangi Email Provider üzerinden Mail atmak istersiniz, Turkcell/Vodafone");
+string providerKey = Console.ReadLine();
+
+var email = container.ResolveKeyed<IEmailService>(providerKey);
+var repo = container.Resolve<IRepository<Order>>();
+var discount = container.Resolve<IDiscount>();
+
+
+var hcS = new HighCohesionAndLowCouplingOrderService(email,repo,discount);
+hcS.SubmitOrder(new Order("ALI"), "324234");
+
+#endregion
 
 
 
